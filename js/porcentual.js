@@ -58,46 +58,26 @@ function getPorcentajes(query){
     })
 }
 
-function getProvincias(resourcesDict){
-    $.ajax({
-        url:api_url+search,
-        type:'POST',
-        data:{
-            resource_id: resourcesDict['ninos_dinardap'],
-	        fields:"PROVINCIA_CENTRO",
-        },
-        headers: {
-            authorization: token
-        },
-        dataType:'json',
-        error:function(err){
-            errorRequest(err)
-        },
-        success:function(result){
-            console.log(result)
-        }
-
-    });
 
 
-}
 
 function boxTemplate(name,recurso){
-    $("#porcentajes").append(' <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">'
-    +'<div class="analytics-sparkle-line reso-mg-b-30">'
-            +'<div class="analytics-content">'
-            +'<h5>'+name+'</h5>'
-            +'<h2>#<span class="counter">'+recurso.prestacion+'</span> <span class="tuition-fees">Tuition Fees</span></h2>'
-            +'<span class="text-success">'+recurso.porcentaje+"%</span>"
-            +'<div class="progress m-b-0">'
-                +'<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70"'
-                    +'aria-valuemin="0" aria-valuemax="100" style="width:'+recurso.porcentaje+'%">'
-                    +'<span class="sr-only">70% Complete</span>'
-                +'</div>'              
-            +'</div>'
-        +'</div>'
-    +'</div>'
-+'</div>')
+
+    $("#porcentajes").append(`<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+    <div class="analytics-sparkle-line reso-mg-b-30">
+            <div class="analytics-content">
+            <h5>${name}</h5>
+            <h2>#<span class="counter">${recurso.prestacion}</span> <span class="tuition-fees">Tuition Fees</span></h2>
+            <span class="text-success">${recurso.porcentaje}</span>
+            <div class="progress m-b-0">
+                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70"
+                    aria-valuemin="0" aria-valuemax="100" style="width:${recurso.porcentaje}%">
+                    <span class="sr-only">70% Complete</span>
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>`)
 
 }
 
@@ -154,8 +134,13 @@ function createBoxes({result}){
             //boxTemplate(recurso[i]);
         });
         if(promesaList.length>0){
-            Promise.all(promesaList).then((value)=>{
-                value.forEach(element=>)
+            Promise.all(promesaList).then((values)=>{
+                values.forEach(value=>{
+                    var query;
+                    query = createJoinSQL(value.id,values[3]["id"]);
+                    getPorcentajes(query).then(result=>{boxTemplate(value.name,result)})
+
+                })
             })
         }
     }
