@@ -1,6 +1,6 @@
 const api_url = 'http://localhost:5000/api/3/action'
 const accionBuscarRecursos = '/current_package_list_with_resources'
-const accionSQL = '/datastore_search_sql'
+const accionBuscarDatastore = '/datastore_search'
 const accionResourchSearch = "/resource_search"
 const organization = 'sistema-seguimiento'
 const token = 'c35c1d70-45c8-40d7-a19f-c8cc0a4fa53a'
@@ -58,7 +58,33 @@ function getPorcentajes(query){
     })
 }
 
+function fontColor(number){
+    var text ;
+    if(number>75){
+        text = "text-info";
+    }else if(number<75 && number>50){
+        text = "text-success";
+    }else if(number<50 && number>25){
+        text = "text-danger";
+    }else{
+        text = "text-inverse"
+    }
+    return text;
+}
 
+function progessBarColor(number){
+    var text ;
+    if(number>75){
+        text = "progress-bar-info";
+    }else if(number<75 && number>50){
+        text = "progress-bar-success";
+    }else if(number<50 && number>25){
+        text = "progress-bar-danger";
+    }else{
+        text = "progress-bar-inverse"
+    }
+    return text;
+}
 
 
 function boxTemplate(name,recurso){
@@ -67,10 +93,10 @@ function boxTemplate(name,recurso){
     <div class="analytics-sparkle-line reso-mg-b-30">
             <div class="analytics-content">
             <h5>${name}</h5>
-            <h2>#<span class="counter">${recurso.prestacion}</span> <span class="tuition-fees">Tuition Fees</span></h2>
-            <span class="text-success">${recurso.porcentaje}</span>
+            <h2><span class="counter">${recurso.prestacion}</span> <span class="tuition-fees">Tuition Fees</span></h2>
+            <span class=${fontColor(recurso.porcentaje)}>${recurso.porcentaje}</span>
             <div class="progress m-b-0">
-                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="70"
+                <div class="progress-bar ${progessBarColor(recurso.porcentaje)}" role="progressbar" aria-valuenow="70"
                     aria-valuemin="0" aria-valuemax="100" style="width:${recurso.porcentaje}%">
                     <span class="sr-only">70% Complete</span>
                 </div>            
@@ -139,7 +165,6 @@ function createBoxes({result}){
                     var query;
                     query = createJoinSQL(value.id,values[3]["id"]);
                     getPorcentajes(query).then(result=>{boxTemplate(value.name,result)})
-
                 })
             })
         }
@@ -169,3 +194,4 @@ function getResources(){
      
 }
 getResources().then((result)=>{createBoxes(result);})
+
