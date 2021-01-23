@@ -8,14 +8,40 @@ const token = 'c35c1d70-45c8-40d7-a19f-c8cc0a4fa53a'
 const search = '/datastore_search'
 const datastoreSQL = '/datastore_search_sql'
 const sexoDict = { 16:"MASCULINO", 17:"FEMENINO", 144: "INTERSEXUAL"}
+const ninos_id = "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"; 
+const documentIdTyipo = {5:"No Identificado", 6:"Cédula de Identidad",
+    7:"Pasaporte",8:"Visa",9:"Carnet de Refugiado" }
+const parentesco = {63:"Padre o madre",67:"Hermano/a",68:"Otro familiar",
+    69:"No familiar",4763:"Abuelo/a",4764:"Tio/a",4765:"Primo/a"}
+const longitud_talla_edad = {343:"Alta Talla para Edad",344:"Normal",345:"Normal/Seguimiento",
+    346:"Normal/Intervención inmediata",347:"Baja Talla",348:"Baja Talla Severa"}
+const imc_edad = {369:"Obesidad",370:"Sobrepeso",371:"Normal/Intervención inmediata (Riesgo de sobrepeso)"
+    ,372:"Normal/Seguimiento (Riesgo de sobrepeso)",373:"Normal",374:"Normal/Seguimiento (Riesgo de emaciación)"
+    ,375:"Normal/Intervención inmediata (Riesgo de emaciación)",376:"Emaciado",377:"Severamente Emaciado"}
+const indicador_anemia = {319:"Anemia severa",320:"Anemia moderada",321:"Anemia leve",322:"Sin anemia"}
+const indicador_peso_talla = {360:"Obesidad",361:"Sobrepeso",362:"Normal/Intervención inmediata (Riesgo de sobrepeso)"
+    ,363:"Normal/Seguimiento (Riesgo de sobrepeso)",364:"Normal",365:"Normal/Seguimiento (Riesgo de emaciación)"
+    ,366:"Normal/Intervención inmediata (Riesgo de emaciación)",367:"Emaciado",368:"Severamente Emaciado"}
+const prescripcion = {null:"vacío/no aplica",1:"si",2:"no"}
+
+
+var id_porcentajes=[];
 
 function createJoinSQL(prestacion, dinardap) {
-    var query = "select count(*)/(SELECT COUNT(*) "
-        + "FROM \"" + prestacion + "\" )*100 as porcentaje "
-        + ",count(t1._id) as ninos, count(*) as prestacion "
-        + "from \"" + prestacion + "\" as t1 "
-        + "inner join \"" + dinardap + "\" as t2 "
-        + "on t1.\"DOCUMENTOIDENTIDAD\"=t2.\"DOCUMENTOIDENTIDAD\""
+    var query = `select (select count(*) from "${dinardap}") as ninos, 
+    count(*) as prestacion from "${prestacion}" as t1 
+    inner join "${dinardap}" as t2 
+    on t1."DOCUMENTOIDENTIDAD"=t2."DOCUMENTOIDENTIDAD"`
+
+    return query;
+}
+
+function createCedulaSQL() {
+    var query = `select count(*) as prestacion, 
+    (select count (*) from \"${ninos_id}\") as ninos from 
+    \"${ninos_id}\" as t1 
+    where t1.\"TIPODOCUMENTOIDENTIFICACION\" <> 5`
+
     return query;
 }
 
@@ -38,7 +64,6 @@ function errorRequest(err) {
 
 function getPorcentajes(query) {
     return new Promise((resolve, reject) => {
-        console.log(query);
         $.ajax({
             url: api_url + datastoreSQL,
             type: 'POST',
@@ -62,11 +87,11 @@ function getPorcentajes(query) {
 
 function fontColor(number){
     var text ;
-    if(number>75){
+    if(number>=75){
         text = "text-info";
-    }else if(number<75 && number>50){
+    }else if(number<=75 && number>=50){
         text = "text-success";
-    }else if(number<50 && number>25){
+    }else if(number<=50 && number>=25){
         text = "text-danger";
     }else{
         text = "text-inverse"
@@ -76,11 +101,11 @@ function fontColor(number){
 
 function progessBarColor(number){
     var text ;
-    if(number>75){
+    if(number>=75){
         text = "progress-bar-info";
-    }else if(number<75 && number>50){
+    }else if(number<=75 && number>=50){
         text = "progress-bar-success";
-    }else if(number<50 && number>25){
+    }else if(number<=50 && number>=25){
         text = "progress-bar-danger";
     }else{
         text = "progress-bar-inverse"
@@ -88,17 +113,27 @@ function progessBarColor(number){
     return text;
 }
 
+function upperCAseFirst(word){
+    var result=word.charAt(0).toUpperCase()+word.slice(1);
+    return result
+}
+
 
 function boxTemplate(name, recurso) {
+    var Newname=name.replace(/-/g," ");
+    var porcentaje = (recurso.prestacion/recurso.ninos*100).toFixed(2);
+    if(recurso.prestacion==0 && recurso.ninos==0){
+        porcentaje=0.001;
+    }
+
     var element = `<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
     <div class="analytics-sparkle-line reso-mg-b-30">
             <div class="analytics-content">
-            <h5>${name}</h5>
-            <h2>#<span class="counter" id="${name}">${recurso.prestacion}</span> <span class="tuition-fees">Tuition Fees</span></h2>
-            <span class=${fontColor(recurso.porcentaje)}>${recurso.porcentaje}</span>
+            <h5>${upperCAseFirst(Newname)}</h5>
+            <h2><span class="counter ${fontColor(porcentaje)}" id="${name}">${porcentaje}</span><span class="${fontColor(porcentaje)}">%</span></h2>
             <div class="progress m-b-0">
-                <div class="progress-bar ${progessBarColor(recurso.porcentaje)}" role="progressbar" aria-valuenow="70"
-                    aria-valuemin="0" aria-valuemax="100" style="width:${recurso.porcentaje}%">
+                <div class="progress-bar ${progessBarColor(porcentaje)}" role="progressbar" aria-valuenow="70"
+                    aria-valuemin="0" aria-valuemax="100" style="width:${porcentaje}%">
                     <span class="sr-only">70% Complete</span>
                 </div>            
             </div>
@@ -110,7 +145,6 @@ function boxTemplate(name, recurso) {
         delay: 10,
         time: 1000
     })
-
 }
 
 function getResourceId(recurso) {
@@ -158,9 +192,19 @@ function createBoxes({ result }) {
             Promise.all(promesaList).then((values) => {
                 values.forEach(value => {
                     var query;
-                    query = createJoinSQL(value.id,values[3]["id"]);
-                    getPorcentajes(query).then(result=>{boxTemplate(value.name,result)})
+                    if(value.name!="ninos_dinardap"){
+                        query = createJoinSQL(value.id,values[3]["id"]);
+                        getPorcentajes(query).then(result=>{boxTemplate(value.name,result)})
+                        dict={
+                            "name": value.name,
+                            "id": value.id
+                        }
+                        id_porcentajes.push(dict);
+                        
+                    }
                 })
+                var query = createCedulaSQL();
+                getPorcentajes(query).then(result=>{boxTemplate("Cedulados",result)})
             })
         }
     }
@@ -189,12 +233,64 @@ function getResources() {
 
 }
 
-function fillTable(){
+
+
+function headerTable(){
+    
+    $('#table').bootstrapTable('refresh')
+    $('#table').bootstrapTable({
+        columns:[
+            {
+                field: 'DOCUMENTOIDENTIDAD',
+                title: 'Identificación'
+            },
+            {
+                field: 'APELLIDOSNOMBRESNINO',
+                title: 'Apellidos y Nombres'
+            },
+            {
+                field: 'FECHANACIMIENTO_NN',
+                title: 'Fecha Nacimiento'
+            },
+            {
+                field: 'SEXO',
+                title: 'Sexo'
+            }
+        ]
+    })
+
+}
+
+function populateRows(response){
+
+    $('#table').bootstrapTable('load',{
+            data: response.result.records.map(item=>{
+            item.SEXO = sexoDict[item.SEXO];
+            item.SEXO_RL = sexoDict[item.SEXO_RL];
+            item.TIPODOCUMENTOIDENTIFICACION = documentIdTyipo[item.TIPODOCUMENTOIDENTIFICACION];
+            item.TIPODOCUMENTOIDENTIFICACION_RL = documentIdTyipo[item.TIPODOCUMENTOIDENTIFICACION];
+            item.PARENTESCO_RL = parentesco[item.PARENTESCO_RL];
+            item.LONGITUD_TALLA_EDAD = longitud_talla_edad[item.LONGITUD_TALLA_EDAD];
+            item.IMC_EDAD = imc_edad[item.IMC_EDAD];
+            item.INDICADOR_ANEMIA = indicador_anemia[item.INDICADOR_ANEMIA];
+            item.INDICADOR_PESO_TALLA = indicador_peso_talla[item.INDICADOR_PESO_TALLA];
+            item.PRESCRIPCION_CHISPAS = prescripcion[item.PRESCRIPCION_CHISPAS]; 
+            item.PRESCRIPCION_VITAMINA_A = prescripcion[item.PRESCRIPCION_VITAMINA_A];
+            item.FECHANACIMIENTO_NN = item.FECHANACIMIENTO_NN.split(' ')[0];
+            return item;
+        })
+    })
+    
+
+}
+
+function fillTable(search,datita){
+    
     $.ajax({
         url: api_url + search,
         type:'POST',
         dataType: 'json',
-        data: { resource_id: "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"},
+        data: datita,
         headers: {
             authorization: token
         },
@@ -202,33 +298,21 @@ function fillTable(){
             errorRequest(err)
         },
         success: (response) => {
-            $('#table').bootstrapTable({
-                columns:[
-                    {
-                        field: 'DOCUMENTOIDENTIDAD',
-                        title: 'Identificación'
-                    },
-                    {
-                        field: 'APELLIDOSNOMBRESNINO',
-                        title: 'Apellidos y Nombres'
-                    },
-                    {
-                        field: 'FECHANACIMIENTO_NN',
-                        title: 'Fecha Nacimiento'
-                    },
-                    {
-                        field: 'SEXO',
-                        title: 'Sexo'
-                    }
-                ],
-                data: response.result.records.map(item=>{
-                    item.SEXO = sexoDict[item.SEXO];
-                    item.FECHANACIMIENTO_NN = item.FECHANACIMIENTO_NN.split(' ')[0];
-                    return item;
-                })
-            })
+            
+            populateRows(response)
         }
     })
 }
-getResources().then((result) => { createBoxes(result); fillTable()});
+
+
+
+$("#table").on("click-row.bs.table",function(editable, columns, row){
+    $('#PrimaryModalhdbgcl').modal('show');
+    console.log(columns);
+})
+
+headerTable();
+getResources().then((result) => { createBoxes(result); fillTable(search,{ "resource_id": ninos_id})});
+
+
 
