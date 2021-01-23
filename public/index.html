@@ -94,7 +94,7 @@
       <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header header-color-modal bg-color-1">
-                  <h4 class="modal-title">Detalle Niño: </span>--</span></h4>
+                  <h4 class="modal-title">Detalle Niño: <span id="nombreNino">--</span></h4>
                   <div class="modal-close-area modal-close-df">
                       <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
                   </div>
@@ -119,27 +119,27 @@
                               
                               <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Tipo de identificacion</b><br /> fly@gmail.com</p>
+                                    <p><b>Tipo de identificacion</b><br /> <span id="TipoIdent"></span></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Documento de identidad</b><br /> +01962067309</p>
+                                    <p><b>Documento de identidad</b><br /><span id="DocumenIdent"></span></p>
                                 </div>
                             </div>  
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr">
-                                        <p><b>Fecha de Nacimiento</b><br /> fly@gmail.com</p>
+                                        <p><b>Fecha de Nacimiento</b><br /><span id="FechaNac"></span></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                        <p><b>Telefono Celular</b><br /> +01962067309</p>
+                                        <p><b>Telefono Celular</b><br /><span id="TeleCelular"></span></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                        <p><b>Telefono Domicilio</b><br /> +01962067309</p>
+                                        <p><b>Telefono Domicilio</b><br /><span id="TeleDomicilio"></span></p>
                                     </div>
                                 </div>
                                 
@@ -154,44 +154,34 @@
                               <hr />
                               <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr">
-                                    <p><b>Nombre completo</b><br /> fly@gmail.com</p>
+                                    <p><b>Nombre completo</b><br /><span id="nombreRL"></span></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Tipo de identificacion</b><br /> +01962067309</p>
+                                    <p><b>Fecha de nacimiento</b><br /> <span id="fechaNaci"></span></p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Documento de identidad</b><br /> +01962067309</p>
+                                    <p><b>Documento de identidad</b><br /> <span id="documentoIdenRL"></span></p>
                                 </div>
                             </div> 
                             <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                 <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                    <p><b>Sexo</b><br /> +01962067309</p>
+                                    <p><b>Sexo</b><br /><span id="sexoRL"></span></p>
                                 </div>
                             </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr">
-                                        <p><b>Parentesco</b><br /> fly@gmail.com</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                                    <div class="address-hr">
-                                        <p><b>Fecha de nacimiento</b><br /> fly@gmail.com</p>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-                                    <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                        <p><b>Sexo</b><br /> +01962067309</p>
+                                        <p><b>Parentesco</b><br /><span id="parentescoRL"></span></p>
                                     </div>
                                 </div>
                             </div>
                           </div> 
                           <div class="col-lg-12">
                             <div class="address-hr">
-                                <p><b>Direccion domiciliaria</b><br /> E104, catn-2, Chandlodia Ahmedabad Gujarat, UK.</p>
+                                <p><b>Direccion domiciliaria</b><br /><span id="direccionN"></span></p>
                             </div>
                         </div>
                         </div>
@@ -207,32 +197,32 @@
                                   
                                   <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr">
-                                        <p><b>Nombre</b><br /> fly@gmail.com</p>
+                                        <p><b>Nombre</b><br /><span id="nombreCen"></span></p>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                     <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                        <p><b>Provincia</b><br /> +01962067309</p>
+                                        <p><b>Provincia</b><br /><span id="provinCentro"></span></p>
                                     </div>
                                 </div>  
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr">
-                                            <p><b>Canton</b><br /> fly@gmail.com</p>
+                                            <p><b>Canton</b><br /><span id="cantonCentro"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Parroquia</b><br /> +01962067309</p>
+                                            <p><b>Parroquia</b><br /><span id="parroquiaCentro"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Direccion del centro</b><br /> +01962067309</p>
+                                            <p><b>Direccion del centro</b><br /><span id="direccionCentro"></span></p>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
                                         <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
-                                            <p><b>Fecha de atencion</b><br /> +01962067309</p>
+                                            <p><b>Fecha de atencion</b><br /><span id="fechaToma"></span></p>
                                         </div>
                                     </div>
                                 </div>

@@ -196,6 +196,11 @@ function getNumeroNinos(Mysql,id){
                 })
                 
             })
+            var optionCDict = createOption("NINGUNO","Canton")
+            $("#"+optionCDict.id).click(function(){
+                $("#numberLabel").attr("data-canton","");
+            });
+
             $("#Canton").removeAttr('disabled');
         }
 
@@ -300,6 +305,13 @@ function getProvincias(){
 
 
 var optionDict= createOption("TODO EL ECUADOR","Provincia")
+var optionNDict = createOption("NINGUNO","Ninos")
+
+
+$("#"+optionNDict.id).click(function(){
+
+    $("#numberLabel").attr("data-sexo","");
+});
 $("#"+optionDict.id).click(function(){
     $("#Canton").prop("disabled","true");
     cleanCriteria();

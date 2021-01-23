@@ -118,6 +118,16 @@ function upperCAseFirst(word){
     return result
 }
 
+function generarDireccionNino(idTag,columns){
+    var direccion;
+
+    direccion=`${columns.DIRECCION_DOMICILIO}, ${columns.CANTON_CENTRO}
+                , ${columns.PROVINCIA_CENTRO}. "${columns.REFERENCIA_DOMICILIO}"`
+
+    $("#"+idTag).text(direccion);
+
+}
+
 
 function boxTemplate(name, recurso) {
     var Newname=name.replace(/-/g," ");
@@ -306,9 +316,27 @@ function fillTable(search,datita){
 
 
 
-$("#table").on("click-row.bs.table",function(editable, columns, row){
+$("#table").on("click-row.bs.table",function(editable, columns){
     $('#PrimaryModalhdbgcl').modal('show');
     console.log(columns);
+    $('#nombreNino').text(columns.APELLIDOSNOMBRESNINO)
+    $("#TipoIdent").text(columns.TIPODOCUMENTOIDENTIFICACION);
+    $("#DocumenIdent").text(columns.DOCUMENTOIDENTIDAD);
+    $("#FechaNac").text(columns.FECHANACIMIENTO_NN);
+    $("#TeleCelular").text(columns.TELEFONO_CELULAR);
+    $("#TeleDomicilio").text(columns.TELEFONO_DOMICILIO);
+    $("#fechaNaci").text(columns.FECHANACIMIENTO_RL);
+    $("#nombreRL").text(columns.NOMBRECOMPLETO_RL);
+    $("#documentoIdenRL").text(columns.DOCUMENTOIDENTIDAD_RL);
+    $("#sexoRL").text(columns.SEXO_RL);
+    $("#parentescoRL").text(columns.PARENTESCO_RL);
+    $("#nombreCen").text(columns.NOMBRE_CENTRO_SALUD);
+    $("#provinCentro").text(columns.PROVINCIA_CENTRO);
+    $("#cantonCentro").text(columns.CANTON_CENTRO);
+    $("#parroquiaCentro").text(columns.PARROQUIA_CENTRO);
+    $("#direccionCentro").text(columns.DIRECCION_CENTRO);
+    $("#fechaToma").text(columns.FECHA_TOMA);
+    generarDireccionNino("direccionN",columns);
 })
 
 headerTable();
