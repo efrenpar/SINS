@@ -45,6 +45,18 @@ function createCedulaSQL() {
     return query;
 }
 
+function getdatesByNinoSQL(idNino,idPrestacion){
+    var query = `select ne.\"FDESDEOPTIMO\",ne.\"FHASTAOPTIMO\", 
+    ne.\"RESULTADOFECHAENTREGA\", ne.\"RESULTADO\" 
+    from \"${ninos_id}\" as t1, 
+    \"${idPrestacion}\" as ne 
+    where t1.\"DOCUMENTOIDENTIDAD\"=ne.\"DOCUMENTOIDENTIDAD\" 
+    AND t1.\"DOCUMENTOIDENTIDAD\"= '${idNino}'`
+
+    return query;
+}
+
+
 function errorRequest(err) {
     switch (err.status) {
         case "400":
@@ -60,6 +72,89 @@ function errorRequest(err) {
             console.log("unknown error");
             break;
     }
+}
+
+function headerTabalePres(){
+    var component=`<col>
+    <colgroup span="2"></colgroup>
+    <colgroup span="2"></colgroup>
+    <tr>
+    <td rowspan="2"></td>
+    </tr>
+    <tr>
+    <th scope="col">Fecha desde optimo</th>
+    <th scope="col">Fecha hasta optimo</th>
+    <th scope="col">Fecha de entrega</th>
+    <th scope="col">Resultado</th>
+    </tr>
+    `
+    $("#prestacionCom").append(component)
+}
+
+function thumbsUp(idLabel,prescripcion){
+
+    $("#"+idLabel).empty()
+    var signUp = `<i class="fa fa-thumbs-up" style="font-size:36px;color:green"></i>`;
+    var signdown = `<i class="fa fa-thumbs-down" style="font-size:36px;color:red"></i>`;
+    if("si"==prescripcion || "Óptimo"==prescripcion){
+        $("#"+idLabel).append(signUp);
+
+    }else if("no"==prescripcion || "Oportuno"==prescripcion){
+        $("#"+idLabel).append(signdown);
+    }else{
+        $("#"+idLabel).text("No hay registro");
+    }
+
+}
+
+
+function crateTableComponent(record,name){
+    var Newname=name.replace(/-/g," ");
+    var component = `
+    
+    
+    <tr>
+    <th scope="row">${upperCAseFirst(Newname)}</th>
+    <td>${record.FDESDEOPTIMO.split(" ")[0]}</td>
+    <td>${record.FHASTAOPTIMO.split(" ")[0]}</td>
+    <td>${record.RESULTADOFECHAENTREGA.split(" ")[0]}</td>
+    <td id="P${name}"></td>
+  </tr>`
+
+  $("#prestacionCom").append(component)
+  thumbsUp(`P${name}`,record.RESULTADO)
+}
+
+function makeDates(dateString){
+    var date;
+    var format;
+    format = dateString.split(" ")[0].split("/")
+    date = new Date("20"+format[2],format[1],format[0]);
+    return date;
+
+}
+
+function execGetNinos(query,name){
+
+    $.ajax({
+        url:api_url+datastoreSQL,
+        type:'POST',
+        data:{
+            sql:query
+        },
+        headers: {
+            authorization: token
+        },
+        dataType:'json',
+        error:function(err){
+            errorRequest(err)
+        },
+        success:function({result}){
+            crateTableComponent(result.records[0],name)
+            
+        }
+
+    });
 }
 
 function getPorcentajes(query) {
@@ -127,6 +222,8 @@ function generarDireccionNino(idTag,columns){
     $("#"+idTag).text(direccion);
 
 }
+
+
 
 
 function boxTemplate(name, recurso) {
@@ -318,7 +415,6 @@ function fillTable(search,datita){
 
 $("#table").on("click-row.bs.table",function(editable, columns){
     $('#PrimaryModalhdbgcl').modal('show');
-    console.log(columns);
     $('#nombreNino').text(columns.APELLIDOSNOMBRESNINO)
     $("#TipoIdent").text(columns.TIPODOCUMENTOIDENTIFICACION);
     $("#DocumenIdent").text(columns.DOCUMENTOIDENTIDAD);
@@ -336,7 +432,21 @@ $("#table").on("click-row.bs.table",function(editable, columns){
     $("#parroquiaCentro").text(columns.PARROQUIA_CENTRO);
     $("#direccionCentro").text(columns.DIRECCION_CENTRO);
     $("#fechaToma").text(columns.FECHA_TOMA);
+    $("#peso").text(columns.PESO);
+    $("#estatura").text(columns.ESTATURA);
+    $("#lon-tal-edad").text(columns.LONGITUD_TALLA_EDAD);
+    $("#pes-edad").text(columns.PESO_EDAD);
+    $("#imc-edad").text(columns.IMC_EDAD);
+    $("#ind-anemia").text(columns.INDICADOR_ANEMIA);
+    $("#ind-peso-talla").text(columns.INDICADOR_PESO_TALLA);
+    thumbsUp("vitA",columns.PRESCRIPCION_VITAMINA_A);
+    thumbsUp("chipas",columns.PRESCRIPCION_CHISPAS);
     generarDireccionNino("direccionN",columns);
+    $("#prestacionCom").empty()
+    headerTabalePres()
+    id_porcentajes.forEach(element=>{
+        execGetNinos(getdatesByNinoSQL(columns.DOCUMENTOIDENTIDAD,element.id),element.name)
+    })
 })
 
 headerTable();
