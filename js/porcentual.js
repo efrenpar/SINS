@@ -23,6 +23,13 @@ const indicador_peso_talla = {360:"Obesidad",361:"Sobrepeso",362:"Normal/Interve
     ,363:"Normal/Seguimiento (Riesgo de sobrepeso)",364:"Normal",365:"Normal/Seguimiento (Riesgo de emaciación)"
     ,366:"Normal/Intervención inmediata (Riesgo de emaciación)",367:"Emaciado",368:"Severamente Emaciado"}
 const prescripcion = {null:"vacío/no aplica",1:"si",2:"no"}
+const peso_edad = {
+    349:"Peso Elevado para la Edad",350:"Normal",351:"Normal/Seguimiento"
+    ,352:"Bajo Peso",353:"Bajo Peso Severo",354:"Peso Elevado para la Edad"
+    ,355: "Normal/Seguimiento (Riesgo de Sobrepeso)",356:"Normal"
+    ,357: "Normal/Seguimiento (Riesgo de Bajo peso)",358:"Bajo Peso"
+    ,359:"Bajo Peso Severo"
+}
 
 
 var id_porcentajes=[];
@@ -236,7 +243,7 @@ function boxTemplate(name, recurso) {
     var element = `<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
     <div class="analytics-sparkle-line reso-mg-b-30">
             <div class="analytics-content">
-            <h5>${upperCAseFirst(Newname)}</h5>
+            <h5>${upperCAseFirst(Newname)}:<sapn>(${recurso.prestacion})</sapn></h5>
             <h2><span class="counter ${fontColor(porcentaje)}" id="${name}">${porcentaje}</span><span class="${fontColor(porcentaje)}">%</span></h2>
             <div class="progress m-b-0">
                 <div class="progress-bar ${progessBarColor(porcentaje)}" role="progressbar" aria-valuenow="70"
@@ -301,7 +308,10 @@ function createBoxes({ result }) {
                     var query;
                     if(value.name!="ninos_dinardap"){
                         query = createJoinSQL(value.id,values[3]["id"]);
-                        getPorcentajes(query).then(result=>{boxTemplate(value.name,result)})
+                        getPorcentajes(query).then(result=>{
+                            boxTemplate(value.name,result);
+                            $("#numberLabel").text(result.ninos);
+                        })
                         dict={
                             "name": value.name,
                             "id": value.id
@@ -383,6 +393,7 @@ function populateRows(response){
             item.INDICADOR_PESO_TALLA = indicador_peso_talla[item.INDICADOR_PESO_TALLA];
             item.PRESCRIPCION_CHISPAS = prescripcion[item.PRESCRIPCION_CHISPAS]; 
             item.PRESCRIPCION_VITAMINA_A = prescripcion[item.PRESCRIPCION_VITAMINA_A];
+            item.PESO_EDAD = peso_edad[item.PESO_EDAD]
             item.FECHANACIMIENTO_NN = item.FECHANACIMIENTO_NN.split(' ')[0];
             return item;
         })

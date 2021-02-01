@@ -196,7 +196,7 @@ function getNumeroNinos(Mysql,id){
                 })
                 
             })
-            var optionCDict = createOption("NINGUNO","Canton")
+            var optionCDict = createOption("TODOS","Canton")
             $("#"+optionCDict.id).click(function(){
                 $("#numberLabel").attr("data-canton","");
             });
@@ -305,7 +305,7 @@ function getProvincias(){
 
 
 var optionDict= createOption("TODO EL ECUADOR","Provincia")
-var optionNDict = createOption("NINGUNO","Ninos")
+var optionNDict = createOption("CUALQUIERA","Ninos")
 
 
 $("#"+optionNDict.id).click(function(){
