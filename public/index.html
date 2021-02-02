@@ -433,10 +433,23 @@
                         <div class="container-fluid">
                             <div class="sparkline13-hd">
                                 <div class="main-sparkline13-hd">
-                                    <h1>Distribucion  <span class="table-project-n">De Niños:</span> </h1>
+                                    <h1>Cantidad de prestaciones  <span class="table-project-n">recibida por niños:</span> </h1>
                                 </div>
                             </div> 
-                            <div id="mapid"></div>
+                            <!--<div id="mapid"></div>-->
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="charts-single-pro responsive-mg-b-30">
+                                        <div class="alert-title">
+                                            
+                                        </div>
+                                        <div id="pie-chart">
+                                            <canvas id="piechart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -569,6 +582,7 @@
     <!-- plugins JS
 		============================================ -->
     <script src="js/plugins.js"></script>
+    <script src="js/charts/Chart.js"></script>
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
@@ -576,8 +590,9 @@
         ============================================ -->
     <script src = "https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
     <script src ="js/porcentual.js"></script>
-    <script src ="js/map.js"></script>
+    <!--<script src ="js/map.js"></script>-->
     <script src ="js/filtro.js"></script>
+    <script src="js/pie.js"></script>
 </body>
 
 </html>

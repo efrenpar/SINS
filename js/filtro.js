@@ -264,7 +264,7 @@ function getDinardapRecords(id){
         success:function({result}){
             var provincias = result.records
             provincias.forEach(element => {
-                getCoordenadasProvincias(ninos_id,element.PROVINCIA_CENTRO)
+                //getCoordenadasProvincias(ninos_id,element.PROVINCIA_CENTRO)
                 var result =createOption(element.PROVINCIA_CENTRO,"Provincia");
                 $("#"+result.id).click((event)=>{getCanton(result.option);
                     

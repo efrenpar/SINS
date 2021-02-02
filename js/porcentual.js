@@ -1,14 +1,16 @@
-//const api_url = 'http://192.168.100.28:5000/api/3/action'
-const api_url = 'http://localhost:5000/api/3/action'
+const api_url = 'http://142.93.127.17:5000/api/3/action'
+//const api_url = 'http://localhost:5000/api/3/action'
 const accionBuscarRecursos = '/current_package_list_with_resources'
 const accionBuscarDatastore = '/datastore_search'
 const accionResourchSearch = "/resource_search"
 const organization = 'sistema-seguimiento'
-const token = 'c35c1d70-45c8-40d7-a19f-c8cc0a4fa53a'
+//const token = 'c35c1d70-45c8-40d7-a19f-c8cc0a4fa53a'
+const token = '6d3325fc-8987-4e72-a4c8-861274363275'
 const search = '/datastore_search'
 const datastoreSQL = '/datastore_search_sql'
 const sexoDict = { 16:"MASCULINO", 17:"FEMENINO", 144: "INTERSEXUAL"}
-const ninos_id = "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"; 
+const ninos_id = "d6886447-c308-4c98-9765-98894215a6ab";
+//const ninos_id = "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"; 
 const documentIdTyipo = {5:"No Identificado", 6:"Cédula de Identidad",
     7:"Pasaporte",8:"Visa",9:"Carnet de Refugiado" }
 const parentesco = {63:"Padre o madre",67:"Hermano/a",68:"Otro familiar",
