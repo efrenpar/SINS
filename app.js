@@ -33,6 +33,6 @@ app.use(function(req, res, next) {
   });
 
   
-server.listen(port, host, function() {
-  console.log("Server started.......");
+server.listen(port,function() {
+  console.log("Server started.......",port);
 });

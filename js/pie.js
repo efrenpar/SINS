@@ -1,5 +1,61 @@
 
 var datita=[];
+var recursos=[];
+var chart;
+
+function mixLabelWithFilter(label,dict){
+    
+
+    Object.entries(dict).forEach(([key,value])=>{
+        if(value!==''){
+            
+            if(key=="sexo"){
+                label+=`|${sexoDict[value]}`;
+            }else{
+                label+=`|${value}`;
+            }
+        }
+    })
+
+    return label;
+}
+
+function agregarFeature(nombre,id_source){
+
+    var cadena = $(`#features`).attr("data-checks");
+    if($(`#${nombre}`).attr("checked")!="checked"){
+        cadena+=` ${id_source.name}`
+        $(`#${nombre}`).attr("checked","true");
+        $(`#features`).attr("data-checks",cadena);
+    }else{
+        cadena=cadena.replace(` ${id_source.name}`,'');
+        console.log(cadena)
+        $(`#${nombre}`).removeAttr("checked");
+        $(`#features`).attr('data-checks',cadena);
+    }
+
+
+}
+
+function generateCheckbox(prestacion,id){
+    var Newname=prestacion.name.replace(/-/g," ");
+        if(Newname==="ninos_dinardap"){
+            Newname = "Cedulados"
+        }
+    var id_Checkbox = upperCAseFirst(Newname.substring(0, 2));
+    var checkbox = `<li  >
+    <label>${upperCAseFirst(Newname)} 
+    (${id_Checkbox})
+    <input id="${id_Checkbox}" 
+    data-nombre = "${prestacion}"
+    class="pull-left radio-checked"  
+    type="checkbox"></label></li>`;
+
+    $(`#${id}`).append(checkbox);
+    $(`#${id_Checkbox}`).click(element=>
+        agregarFeature(id_Checkbox,prestacion));
+}
+
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -20,9 +76,9 @@ function createLabel(array){
     array.forEach(element=>{
         var Newname=element.name.replace(/-/g," ");
         if(Newname==="ninos_dinardap"){
-            Newname = "Cedulados"
+            Newname = "Ce"
         }
-        label += `| ${upperCAseFirst(Newname)} `;
+        label += `|${upperCAseFirst(Newname.substring(0, 2))}`;
     })
 
     console.log(label)
@@ -35,6 +91,7 @@ function createPieSQL(array){
 
     var query = `select count(*) from \"${ninos_id}\" as t1 `
     var number=2;
+    var cedulado;
     array.forEach(element=>{
         
         if(element.id!==ninos_id){
@@ -42,10 +99,14 @@ function createPieSQL(array){
         //console.log(element)
             number++;
         }else{
-            query = createCedulaPart(query)
+            cedulado = element.id;
+            
         }
         
     })
+    if(cedulado===ninos_id){
+        query = createCedulaPart(query)
+    }
     /*console.log(array)*/
     console.log(query)
     return query;
@@ -65,6 +126,53 @@ function createCedulaPart(query){
 
     return query +=` where t1.\"TIPODOCUMENTOIDENTIFICACION\" <> 5`;
 
+}
+
+function createFilterDict(){
+    var sexo = $("#numberLabel").attr("data-sexo");
+    var provincia = $("#numberLabel").attr("data-provincia");
+    var canton = $("#numberLabel").attr("data-canton");
+    var dict = {
+
+        sexo :sexo,
+        provincia:provincia,
+        canton:canton
+
+
+    }
+
+    return dict;
+
+}
+
+function createFilterPart(query,dict){
+    var quericito = query;
+
+    if(dict.provincia =="TODO EL ECUADOR" ){
+        dict.provincia = "";
+    }
+    if(dict.sexo && dict.canton){
+
+        query +=` and t1.\"CANTON_CENTRO\" = '${dict.canton}' 
+        and t1.\"SEXO\" = ${dict.sexo}`;
+    }else if (dict.provincia && dict.sexo){
+        query +=` and t1.\"PROVINCIA_CENTRO\" = '${dict.provincia}' 
+        and t1.\"SEXO\" = ${dict.sexo}`;
+    }else if(dict.canton && dict.provincia ){
+        query +=` and t1.\"CANTON_CENTRO\" = '${dict.canton}'`;
+    }else if(!dict.canton && dict.provincia){
+        query +=` and t1.\"PROVINCIA_CENTRO\" = '${dict.provincia}'`;
+    }else if(dict.provincia!="TODO EL ECUADOR" && dict.sexo){
+        
+        query +=` and t1.\"SEXO\" = ${dict.sexo}`;
+        
+    }
+    else if(dict.provincia==='TODO EL ECUADOR'){
+        query = quericito
+    }
+
+    console.log(query);
+    return query;
 }
 
 function execpieSQL(query){
@@ -161,72 +269,161 @@ function generateCombinations(dictList){
     return allCombinations;
 }
 
+
 function getResourcesnoPromise() {
-        var recursos;
-        $.ajax({
-            url: api_url + accionBuscarRecursos,
-            type: 'GET',
-            dataType: 'json',
-            error: function (err) {
-                errorRequest(err)
-            },
-            success: function (result) {
-                var recursos = result.result[0].resources;
-                var dictList=[];
-                recursos.forEach(element => {
-                    dict = {
-                        name:element.name,
-                        id:element.id
-                    }
-                    dictList.push(dict)
-                    
-                });
-                var all;
-                var label=[];
-                var query;
-                var promesaList=[]
-                var colors=[]
-                var index;
-                all = generateCombinations(dictList);
-                Object.entries(all).forEach(([key,value])=>{
-                    value.forEach(element=>{
-                       if(element.length!=1){
-                            query = createPieSQL(element)
-                            label.push(createLabel(element));
-                            promesaList.push(execpieSQL(query))
-                            colors.push(getRandomColor())
-                       }
-                        
-                    })
-                })
-                Promise.all(promesaList).then((values)=>{
-                    
-                    createPie(label,values,colors)
-                })
-            }
+    var recursos;
+    $.ajax({
+        url: api_url + accionBuscarRecursos,
+        type: 'GET',
+        dataType: 'json',
+        error: function (err) {
+            errorRequest(err)
+        },
+        success: function (result) {
+            var recursos = result.result[0].resources;
+            var dictList=[];
+            recursos.forEach(element => {
+                dict = {
+                    name:element.name,
+                    id:element.id
+                }
+                dictList.push(dict)
+                generateCheckbox(dict,"features");
+                
+                
+            });
+            generarButton(dictList)
             
-        });
+        }
+        
+    });
 
 
 }
 
 function createPie(label,datita,colors){
+    Chart.defaults.scale.ticks.beginAtZero=true;
     var ctx = document.getElementById("piechart");
 	var piechart = new Chart(ctx, {
-		type: 'pie',
+		type: 'bar',
 		data: {
-			labels: label,
 			datasets: [{
-				label: 'pie Chart',
-                backgroundColor: colors,
-				data: datita
-            }]
+                label: "Niños dinardap",
+                backgroundColor: "blue",
+                
+            },
+            ]
 		},
 		options: {
 			responsive: true
-		}
-	});
+        }
+        
+    });
+    
+    return piechart;
 
 }
 
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+    chart.update();
+}
+
+function generarButton(dictList){
+
+    $("#generar").click((event)=>{
+        var cadenaChecks = $("#features").attr("data-checks");
+        var tokens = cadenaChecks.split(" ");
+        var Resourcesdict = {}
+        var myarray=[]
+        var query;
+        var label=[]
+
+        if(tokens.length==2){
+            mostrarModalInformation()
+            return;
+        }else if(tokens.length==1){
+            myarray = dictList
+        }else{
+            dictList.forEach(element=>{
+                Resourcesdict[element.name]=element.id
+            })
+            tokens.forEach(element=>{
+                if(element!==""){
+                    myarray.push({
+                        name:element,
+                        id:Resourcesdict[element]
+                    })
+                }
+            })
+            
+        }
+        query = createPieSQL(myarray)
+        label.push(createLabel(myarray));
+        var filterDict = createFilterDict()
+        label=mixLabelWithFilter(label,filterDict)
+        query=createFilterPart(query,filterDict)
+    
+        execpieSQL(query).then(result=>{
+            addData(chart,label,result)
+        })
+    
+        console.log(myarray)
+        console.log(dictList)
+        console.log(tokens)
+
+        
+    });
+
+}
+
+function LimpiarButton(chart){
+    $("#Limpiar").click((event)=>{
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        chart.update();
+    })
+
+}
+
+function mostrarModalInformation(){
+    $(`#InformationproModalalert`).modal("show");
+}
+
+$("#allChecks").change((event)=>{
+    if($("#allChecks").attr("checked")!="checked"){
+        id_porcentajes.forEach(element=>{
+            $(`#${upperCAseFirst(element.name.substring(0, 2))}`).prop("hidden","true");
+            $(`#${upperCAseFirst(element.name.substring(0, 2))}`).removeAttr('checked');
+            $("#features").attr("data-checks","");
+            $("#allChecks").attr("checked","true");
+        })
+        $(`#Ce`).removeAttr('checked');
+        $(`#Ce`).prop("hidden","true");
+    }else{
+        id_porcentajes.forEach(element=>{
+            $(`#${upperCAseFirst(element.name.substring(0, 2))}`).removeAttr('hidden');
+            $("#allChecks").removeAttr("checked");
+        })
+        $(`#Ce`).removeAttr("hidden");
+    }
+});
+
+
+
+chart = createPie()
+LimpiarButton(chart)
 getResourcesnoPromise()

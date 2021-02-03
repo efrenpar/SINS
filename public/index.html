@@ -90,6 +90,27 @@
     <!-- Start Left menu area -->
     <!-- End Left menu area -->
     <!-- Start Welcome area -->
+    <div id="InformationproModalalert" class="modal modal-edu-general fullwidth-popup-InformationproModal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-close-area modal-close-df">
+                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                </div>
+                <div class="modal-body">
+                    <span > <i class="fa fa-info-circle" aria-hidden="true"></i>
+                    </span>
+                    <h2>Importante!</h2>
+                    <p>Elija mas de una opcion</p>
+                </div>
+                <div class="modal-footer info-md">
+                    <a data-dismiss="modal" href="#">Aceptar</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div id="PrimaryModalhdbgcl" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -439,7 +460,7 @@
                             <!--<div id="mapid"></div>-->
 
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="charts-single-pro responsive-mg-b-30">
                                         <div class="alert-title">
                                             
@@ -450,6 +471,26 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    <div class="main-sparkline13-hd">
+                        <h1>Seleccione:</h1>
+                    </div>
+                    <div class="single-review-st-item res-mg-t-30 table-mg-t-pro-n">
+                        <div class="main-sparkline13-hd">
+                            <h4>Prestaciones:</h4>
+                        </div>
+                        <ul class="basic-list" id="features" data-checks="" checked="false" >
+                            <li >   
+                                <label>Todo<input class="pull-left radio-checked"  type="checkbox" id="allChecks"></label>
+                            </li>
+                        </ul>
+                        <hr>
+                        <div class = "row">
+                            <button type="button" id="generar" class="btn btn-custon-rounded-four btn-primary">Generar</button>
+                            <button type="button" id="Limpiar" class="btn btn-custon-rounded-four btn-danger">Eliminar</button>
                         </div>
                     </div>
                 </div>
@@ -588,7 +629,6 @@
     <script src="js/main.js"></script>
     <!-- tawk chat JS
         ============================================ -->
-    <script src = "https://cdn.jsdelivr.net/npm/lodash@4.17.20/lodash.min.js"></script>
     <script src ="js/porcentual.js"></script>
     <!--<script src ="js/map.js"></script>-->
     <script src ="js/filtro.js"></script>
