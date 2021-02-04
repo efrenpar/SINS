@@ -29,7 +29,7 @@ function agregarFeature(nombre,id_source){
         $(`#features`).attr("data-checks",cadena);
     }else{
         cadena=cadena.replace(` ${id_source.name}`,'');
-        console.log(cadena)
+       
         $(`#${nombre}`).removeAttr("checked");
         $(`#features`).attr('data-checks',cadena);
     }
@@ -81,7 +81,7 @@ function createLabel(array){
         label += `|${upperCAseFirst(Newname.substring(0, 2))}`;
     })
 
-    console.log(label)
+    
     return label;
 }
 
@@ -108,7 +108,7 @@ function createPieSQL(array){
         query = createCedulaPart(query)
     }
     /*console.log(array)*/
-    console.log(query)
+    
     return query;
 
 }
@@ -171,7 +171,7 @@ function createFilterPart(query,dict){
         query = quericito
     }
 
-    console.log(query);
+    
     return query;
 }
 
@@ -252,7 +252,7 @@ function combi(list){
             temp.push(combi)    
         }
     }
-    console.log(temp)
+   
     return temp;
 }
 
@@ -332,10 +332,7 @@ function createPie(label,datita,colors){
         borderWidth: 1,
 		options: {
             responsive: true,
-            scales:{
-                labelString:"Hola bebe",
-                display:"true"
-            },
+            
             
         }
         
@@ -400,9 +397,7 @@ function generarButton(dictList){
             addData(chart,label,result)
         })
     
-        console.log(myarray)
-        console.log(dictList)
-        console.log(tokens)
+       
 
         
     });
@@ -411,7 +406,7 @@ function generarButton(dictList){
 
 function LimpiarButton(chart){
     $("#Limpiar").click((event)=>{
-        console.log(chart.data.labels)
+        
         while(chart.data.labels.length>0){
             chart.data.labels.pop();
             chart.data.datasets.forEach((dataset) => {

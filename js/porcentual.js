@@ -14,7 +14,7 @@ const ninos_id = "d6886447-c308-4c98-9765-98894215a6ab";
 const documentIdTyipo = {5:"No Identificado", 6:"Cédula de Identidad",
     7:"Pasaporte",8:"Visa",9:"Carnet de Refugiado" }
 const parentesco = {63:"Padre o madre",67:"Hermano/a",68:"Otro familiar",
-    69:"No familiar",4763:"Abuelo/a",4764:"Tio/a",4765:"Primo/a"}
+    69:"No familiar",4763:"Abuelo/a",4764:"Tio/a",4765:"Primo/a",nuul:"no hay registro"}
 const longitud_talla_edad = {343:"Alta Talla para Edad",344:"Normal",345:"Normal/Seguimiento",
     346:"Normal/Intervención inmediata",347:"Baja Talla",348:"Baja Talla Severa"}
 const imc_edad = {369:"Obesidad",370:"Sobrepeso",371:"Normal/Intervención inmediata (Riesgo de sobrepeso)"
@@ -35,6 +35,16 @@ const peso_edad = {
 
 
 var id_porcentajes=[];
+
+function revisarTexto(labelId,texto){
+    console.log(texto)
+        if(texto==="0" || texto===null){
+            texto="No hay registro"
+        }
+
+        $(`#${labelId}`).text(texto);
+
+}
 
 function createJoinSQL(prestacion, dinardap) {
     var query = `select (select count(*) from "${dinardap}") as ninos, 
@@ -224,6 +234,11 @@ function upperCAseFirst(word){
 
 function generarDireccionNino(idTag,columns){
     var direccion;
+
+    if(columns.REFERENCIA_DOMICILIO==0){
+        columns.REFERENCIA_DOMICILIO="No hay referencia"
+
+    }
 
     direccion=`${columns.DIRECCION_DOMICILIO}, ${columns.CANTON_CENTRO}
                 , ${columns.PROVINCIA_CENTRO}. "${columns.REFERENCIA_DOMICILIO}"`
@@ -433,12 +448,12 @@ $("#table").on("click-row.bs.table",function(editable, columns){
     $("#DocumenIdent").text(columns.DOCUMENTOIDENTIDAD);
     $("#FechaNac").text(columns.FECHANACIMIENTO_NN);
     $("#TeleCelular").text(columns.TELEFONO_CELULAR);
-    $("#TeleDomicilio").text(columns.TELEFONO_DOMICILIO);
+    revisarTexto("TeleDomicilio",columns.TELEFONO_DOMICILIO);
     $("#fechaNaci").text(columns.FECHANACIMIENTO_RL);
     $("#nombreRL").text(columns.NOMBRECOMPLETO_RL);
     $("#documentoIdenRL").text(columns.DOCUMENTOIDENTIDAD_RL);
     $("#sexoRL").text(columns.SEXO_RL);
-    $("#parentescoRL").text(columns.PARENTESCO_RL);
+    revisarTexto("parentescoRL",columns.PARENTESCO_RL);
     $("#nombreCen").text(columns.NOMBRE_CENTRO_SALUD);
     $("#provinCentro").text(columns.PROVINCIA_CENTRO);
     $("#cantonCentro").text(columns.CANTON_CENTRO);
