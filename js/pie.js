@@ -68,9 +68,7 @@ function getRandomColor() {
 
 
 function createLabel(array){
-    if(array.length==1){
-        return null;
-    }
+    
 
     var label=``;
     array.forEach(element=>{
@@ -174,7 +172,7 @@ function createFilterPart(query,dict){
 }
 
 function execpieSQL(query){
-
+    console.log(query)
     return new Promise((resolve,reject)=>{
         $.ajax({
             url:api_url+datastoreSQL,
@@ -386,16 +384,14 @@ function generarButton(dictList){
                 sexo=reverseSexoDict[sexo]
                 console.log(sexo)
             }
-            if(tokens.length==2){
-                mostrarModalInformation()
-                return;
-            }else if(tokens.length==1){
+            if(tokens.length==1){
                 myarray = dictList
             }else{
                 dictList.forEach(element=>{
                     Resourcesdict[element.name]=element.id
                 })
                 tokens.forEach(element=>{
+                    console.log(element)
                     if(element!==""){
                         myarray.push({
                             name:element,
@@ -410,47 +406,13 @@ function generarButton(dictList){
             var filterDict = createFilterDict(sexo,provincia,canton)
             label=mixLabelWithFilter(label,filterDict)
             query=createFilterPart(query,filterDict)
-    
+            console.log(query)
             execpieSQL(query).then(result=>{
                 addData(chart,label,result)
             })
 
         })
-       /* var cadenaChecks = $("#features").attr("data-checks");
-        var tokens = cadenaChecks.split(" ");
-        var Resourcesdict = {}
-        var myarray=[]
-        var query;
-        var label=[]
-
-       if(tokens.length==2){
-            mostrarModalInformation()
-            return;
-        }else if(tokens.length==1){
-            myarray = dictList
-        }else{
-            dictList.forEach(element=>{
-                Resourcesdict[element.name]=element.id
-            })
-            tokens.forEach(element=>{
-                if(element!==""){
-                    myarray.push({
-                        name:element,
-                        id:Resourcesdict[element]
-                    })
-                }
-            })
-            
-        }
-        query = createPieSQL(myarray)
-        label.push(createLabel(myarray));
-        var filterDict = createFilterDict()
-        label=mixLabelWithFilter(label,filterDict)
-        query=createFilterPart(query,filterDict)
-    
-        execpieSQL(query).then(result=>{
-            addData(chart,label,result)
-        })*/
+       
     
        
 
