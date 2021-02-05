@@ -202,7 +202,7 @@ function getNumeroNinos(Mysql,id){
             });
 
             $("#Canton").removeAttr('disabled');
-            $("#Canton").removeAttr('hidden');
+            
         }
 
     });
@@ -271,7 +271,7 @@ function getDinardapRecords(id){
                     
                     $("#numberLabel").attr("data-provincia",`${element.PROVINCIA_CENTRO}`);
                     $("#numberLabel").attr("data-canton",``);
-                    $("#numberLabel").attr("data-sexo",``);
+                    //$("#numberLabel").attr("data-sexo",``);
             
                 });    
             });
@@ -314,10 +314,10 @@ $("#"+optionNDict.id).click(function(){
     $("#numberLabel").attr("data-sexo","");
 });
 $("#"+optionDict.id).click(function(){
-    $("#Canton").prop("disabled","true");
     if($("#Canton").attr("multiple")){
-        $("#Canton").attr("hidden","true")
+        $("#Canton").empty()
     }
+    $("#Canton").prop("disabled","true");
     cleanCriteria();
     $("#numberLabel").attr("data-provincia","TODO EL ECUADOR");
 });

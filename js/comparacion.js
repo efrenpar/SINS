@@ -14,12 +14,17 @@ $("#Combinar").click((event)=>{
 
 })
 
-
 $("#Remover").click((event)=>{
         
+    $('#Combinacion').each(function() {
+        $(this).find("option:last").remove();
+      });
+    //$("#Combinacion").empty()
+
+})
+
+$("#basura").click((event)=>{
+        
     $("#Combinacion").empty()
-    $("#numberLabel").attr("data-sexo","")
-    $("#numberLabel").attr("data-provincia","")
-    $("#numberLabel").attr("data-canton","")
 
 })

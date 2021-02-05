@@ -5,12 +5,14 @@ var chart;
 
 function mixLabelWithFilter(label,dict){
     
-
+    console.log(label)
+    console.log(dict)
     Object.entries(dict).forEach(([key,value])=>{
         if(value!==''){
             
             if(key=="sexo"){
                 label.push(sexoDict[value]);
+                console.log("esto es",value)
             }else{
                 label.push(value);
             }
