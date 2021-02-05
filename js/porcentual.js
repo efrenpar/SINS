@@ -9,6 +9,7 @@ const token = '6d3325fc-8987-4e72-a4c8-861274363275'
 const search = '/datastore_search'
 const datastoreSQL = '/datastore_search_sql'
 const sexoDict = { 16:"MASCULINO", 17:"FEMENINO", 144: "INTERSEXUAL"}
+const reverseSexoDict = { "MASCULINO":16, "FEMENINO":17, "INTERSEXUAL":144}
 const ninos_id = "d6886447-c308-4c98-9765-98894215a6ab";
 //const ninos_id = "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"; 
 const documentIdTyipo = {5:"No Identificado", 6:"Cédula de Identidad",

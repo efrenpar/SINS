@@ -128,10 +128,8 @@ function createCedulaPart(query){
 
 }
 
-function createFilterDict(){
-    var sexo = $("#numberLabel").attr("data-sexo");
-    var provincia = $("#numberLabel").attr("data-provincia");
-    var canton = $("#numberLabel").attr("data-canton");
+function createFilterDict(sexo,provincia,canton){
+    
     var dict = {
 
         sexo :sexo,
@@ -361,14 +359,71 @@ function removeData(chart) {
 function generarButton(dictList){
 
     $("#generar").click((event)=>{
-        var cadenaChecks = $("#features").attr("data-checks");
+
+        var dictCombiacion = $("#Combinacion").children();
+        var combinaciones=[]
+        Object.entries(dictCombiacion).forEach(([key, value]) => {
+            if(typeof value.text=="string"){
+                combinaciones.push(value.text);
+            }
+            
+        })
+
+        
+        combinaciones.forEach(element=>{
+            console.log(element.split("-"))
+            var cadenaChecks = $("#features").attr("data-checks");
+            var tokens = cadenaChecks.split(" ");
+            var Resourcesdict = {}
+            var myarray=[]
+            var query;
+            var label=[]
+            var provincia=element.split("-")[1]
+            var sexo=element.split("-")[0]
+            var canton=element.split("-")[2]
+            
+            if(sexo!==""){
+                sexo=reverseSexoDict[sexo]
+                console.log(sexo)
+            }
+            if(tokens.length==2){
+                mostrarModalInformation()
+                return;
+            }else if(tokens.length==1){
+                myarray = dictList
+            }else{
+                dictList.forEach(element=>{
+                    Resourcesdict[element.name]=element.id
+                })
+                tokens.forEach(element=>{
+                    if(element!==""){
+                        myarray.push({
+                            name:element,
+                            id:Resourcesdict[element]
+                        })
+                    }
+                })
+                
+            }
+            query = createPieSQL(myarray)
+            label.push(createLabel(myarray));
+            var filterDict = createFilterDict(sexo,provincia,canton)
+            label=mixLabelWithFilter(label,filterDict)
+            query=createFilterPart(query,filterDict)
+    
+            execpieSQL(query).then(result=>{
+                addData(chart,label,result)
+            })
+
+        })
+       /* var cadenaChecks = $("#features").attr("data-checks");
         var tokens = cadenaChecks.split(" ");
         var Resourcesdict = {}
         var myarray=[]
         var query;
         var label=[]
 
-        if(tokens.length==2){
+       if(tokens.length==2){
             mostrarModalInformation()
             return;
         }else if(tokens.length==1){
@@ -395,7 +450,7 @@ function generarButton(dictList){
     
         execpieSQL(query).then(result=>{
             addData(chart,label,result)
-        })
+        })*/
     
        
 

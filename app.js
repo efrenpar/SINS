@@ -24,6 +24,10 @@ router.get('/',function(req,res){
   console.log("GET index.html");
 });
 
+router.get('/comparacion',function(req,res){
+  res.sendFile(path.join(__dirname+'/public/comparacion.html'));
+  console.log("GET comparacion.html");
+});
 
 
 app.use(function(req, res, next) {

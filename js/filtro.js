@@ -110,7 +110,7 @@ function hasWhiteSpace(s,token) {
     return s.indexOf(token) >= 0;
   }
 
-  function createOption(option,id_filter){
+function createOption(option,id_filter){
     var dict={}
     var id = option;
     if(hasWhiteSpace(option," ")){
@@ -305,7 +305,7 @@ function getProvincias(){
 
 
 var optionDict= createOption("TODO EL ECUADOR","Provincia")
-var optionNDict = createOption("CUALQUIERA","Ninos")
+var optionNDict = createOption("CUALQUIER SEXO","Ninos")
 
 
 $("#"+optionNDict.id).click(function(){
