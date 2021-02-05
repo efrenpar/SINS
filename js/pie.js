@@ -10,9 +10,9 @@ function mixLabelWithFilter(label,dict){
         if(value!==''){
             
             if(key=="sexo"){
-                label+=`|${sexoDict[value]}`;
+                label.push(sexoDict[value]);
             }else{
-                label+=`|${value}`;
+                label.push(value);
             }
         }
     })
@@ -68,17 +68,15 @@ function getRandomColor() {
 
 
 function createLabel(array){
-    
+    label=[]
 
-    var label=``;
     array.forEach(element=>{
         var Newname=element.name.replace(/-/g," ");
         if(Newname==="ninos_dinardap"){
-            Newname = "Ce"
+            Newname = "Cedulados"
         }
-        label += `|${upperCAseFirst(Newname.substring(0, 2))}`;
+        label.push(upperCAseFirst(Newname))
     })
-
     
     return label;
 }
@@ -299,27 +297,40 @@ function getResourcesnoPromise() {
 
 function createPie(label,datita,colors){
     Chart.defaults.scale.ticks.beginAtZero=true;
+    Chart.defaults.global.legend.display=false;
+    
     var ctx = document.getElementById("piechart");
 	var piechart = new Chart(ctx, {
 		type: 'bar',
 		data: {
-			datasets: [{
-                label: "Niños dinardap",
+			datasets: [
+                {
+                    label: "Niños dinardap",
                 backgroundColor: [
 					'rgba(255, 99, 132, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
 					'rgba(255, 206, 86, 0.2)',
 					'rgba(75, 192, 192, 0.2)',
 					'rgba(153, 102, 255, 0.2)',
-					'rgba(255, 159, 64, 0.2)'
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
 				],
 				borderColor: [
-					'rgba(255,99,132,1)',
+					'rgba(255, 99, 132, 1)',
 					'rgba(54, 162, 235, 1)',
 					'rgba(255, 206, 86, 1)',
 					'rgba(75, 192, 192, 1)',
 					'rgba(153, 102, 255, 1)',
-					'rgba(255, 159, 64, 1)'
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
 				],
                 borderWidth: 1
             },
@@ -334,16 +345,20 @@ function createPie(label,datita,colors){
         
     });
     
+    console.log(Chart.defaults.global.legend.onClick)
     return piechart;
 
 }
 
 function addData(chart, label, data) {
+    console.log(label)
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
+        dataset.backgroundColor.push('rgba(255, 99, 132, 0.2)')
     });
     chart.update();
+    console.log(chart.data.datasets[0].backgroundColor)
 }
 
 function removeData(chart) {
@@ -402,7 +417,7 @@ function generarButton(dictList){
                 
             }
             query = createPieSQL(myarray)
-            label.push(createLabel(myarray));
+            label=createLabel(myarray);
             var filterDict = createFilterDict(sexo,provincia,canton)
             label=mixLabelWithFilter(label,filterDict)
             query=createFilterPart(query,filterDict)

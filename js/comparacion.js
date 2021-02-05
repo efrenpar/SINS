@@ -8,7 +8,9 @@ $("#Combinar").click((event)=>{
     if(sexo!==""){
         sexo=sexoDict[sexo]
     }
-    createOption(sexo+"-"+provincia+"-"+canton,"Combinacion")
+    if(sexo!=="" || provincia!=="" || canton!==""){
+        createOption(sexo+"-"+provincia+"-"+canton,"Combinacion")
+    }
 
 })
 
@@ -16,5 +18,8 @@ $("#Combinar").click((event)=>{
 $("#Remover").click((event)=>{
         
     $("#Combinacion").empty()
+    $("#numberLabel").attr("data-sexo","")
+    $("#numberLabel").attr("data-provincia","")
+    $("#numberLabel").attr("data-canton","")
 
 })

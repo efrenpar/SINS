@@ -202,6 +202,7 @@ function getNumeroNinos(Mysql,id){
             });
 
             $("#Canton").removeAttr('disabled');
+            $("#Canton").removeAttr('hidden');
         }
 
     });
@@ -314,6 +315,9 @@ $("#"+optionNDict.id).click(function(){
 });
 $("#"+optionDict.id).click(function(){
     $("#Canton").prop("disabled","true");
+    if($("#Canton").attr("multiple")){
+        $("#Canton").attr("hidden","true")
+    }
     cleanCriteria();
     $("#numberLabel").attr("data-provincia","TODO EL ECUADOR");
 });
