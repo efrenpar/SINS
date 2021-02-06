@@ -1,6 +1,7 @@
 
 var datita=[];
 var recursos=[];
+var barras=[];
 var chart;
 
 function mixLabelWithFilter(label,dict){
@@ -72,6 +73,7 @@ function getRandomColor() {
 function createLabel(array){
     label=[]
 
+   
     array.forEach(element=>{
         var Newname=element.name.replace(/-/g," ");
         if(Newname==="ninos_dinardap"){

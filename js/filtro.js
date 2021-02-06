@@ -117,11 +117,12 @@ function createOption(option,id_filter){
         id = option.replace(/\s/g, '-')
     }
 
-    
-    $("#"+id_filter).append(`<option value = "" id="${id}" >${option}</option>`)
-
     dict["id"] = id;
     dict["option"] = option;
+
+    $("#"+id_filter).append(`<option value = "" id="${id}" >${option}</option>`)
+
+
     return dict; 
 
 }
