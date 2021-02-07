@@ -357,6 +357,15 @@ function createPie(label,datita,colors){
         borderWidth: 1,
 		options: {
             responsive: true,
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90,
+                        minRotation: 90
+                    }
+                }]
+            }
             
             
         }
