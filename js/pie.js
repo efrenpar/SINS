@@ -7,12 +7,17 @@ var numero_de_barras;
 
 function mixLabelWithFilter(label,dict){
     
- 
+    
     Object.entries(dict).forEach(([key,value])=>{
         if(value!==''){
-            
+           
             if(key=="sexo"){
-                label.push(sexoDict[value]);
+                if(value == "CUALQUIER SEXO"){
+                    label.push(value);
+                }else{
+                    label.push(sexoDict[value]);
+                }
+                
                 
             }else{
                 label.push(value);
@@ -79,6 +84,7 @@ function createLabel(array){
         if(Newname==="ninos_dinardap"){
             Newname = "Cedulados"
         }
+       
         label.push(upperCAseFirst(Newname))
     })
     
@@ -149,6 +155,14 @@ function createFilterPart(query,dict){
     if(dict.provincia =="TODO EL ECUADOR" ){
         dict.provincia = "";
     }
+    if(dict.canton == "TODOS"){
+        dict.canton = "";
+    }
+    if(dict.sexo == "CUALQUIER SEXO"){
+        dict.sexo = "";
+    }
+
+
     if(dict.sexo && dict.canton){
 
         query +=` and t1.\"CANTON_CENTRO\" = '${dict.canton}' 
@@ -360,8 +374,8 @@ function addData(chart, label, data) {
     var divide = $("#numberLabel").text();
 
     if(porcentaje == "ok"){
-        data = data/divide*100
-        data.toFixed(2);
+        
+        data = (data/divide*100).toFixed(2)
     }
 
     chart.data.labels.push(label);
@@ -398,7 +412,7 @@ function generarButton(dictList){
         var combinaciones=[]
         Object.entries(dictCombiacion).forEach(([key, value]) => {
             if(typeof value.text=="string"){
-                combinaciones.push($(value).attr("id"));
+                combinaciones.push($(value).text());
                 
             }
             
@@ -414,15 +428,16 @@ function generarButton(dictList){
             var myarray=[]
             var query;
             var label=[]
-            var provincia=element.split("-")[1]
-            var sexo=element.split("-")[0]
-            var canton=element.split("-")[2]
+            var provincia=element.split("-")[0]
+            var sexo=element.split("-")[2]
+            var canton=element.split("-")[1]
             
             if(sexo!==""){
-                sexo=reverseSexoDict[sexo]
-              
+                if(sexo != "CUALQUIER SEXO"){
+                    sexo=reverseSexoDict[sexo]
+                }
             }
-            if(tokens.length==1){
+            if(tokens.length==1 && $("#allChecks").attr("checked")=="checked"){
                 myarray = dictList
             }else{
                 dictList.forEach(element=>{
@@ -459,17 +474,47 @@ function generarButton(dictList){
 
 function LimpiarButton(chart){
     $("#Limpiar").click((event)=>{
+        removeAll(chart);
         
-        while(chart.data.labels.length>0){
-            chart.data.labels.pop();
-            chart.data.datasets.forEach((dataset) => {
-                dataset.data.pop();
-            });
-            chart.update();
-            
-            }
     })
 
+}
+
+function getBars(chart,size){
+
+    var numeros=[];
+
+    for(var i=0;i<size;i++){
+        chart.data.datasets.forEach((element)=>{
+            numeros.push(element.data.pop())
+    })
+    }
+
+    return numeros;
+}
+
+function getLabels(chart){
+
+    var label=[];
+
+    while(chart.data.labels.length>0){
+        label.push(chart.data.labels.pop());
+    }
+
+    return label
+}
+
+
+function removeAll(chart){
+
+    while(chart.data.labels.length>0){
+        chart.data.labels.pop();
+        chart.data.datasets.forEach((dataset) => {
+            dataset.data.pop();
+        });
+        chart.update();
+        
+        }
 }
 
 function mostrarModalInformation(){

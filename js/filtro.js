@@ -55,7 +55,7 @@ function createFilterSQL(provincia,canton,sexo){
         query = `select count(*) from \"${ninos_id}\" as t1`;
 
     }
-    //console.log(query);
+    
     return query;
 }
 
@@ -84,7 +84,7 @@ function updatePorcentajesSameOrSQL(query,provincia,canton,sexo){
         
     }
 
-    //console.log(query);
+   
     return query;
 
 

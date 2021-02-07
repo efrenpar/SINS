@@ -185,6 +185,10 @@ textarea {
     clear: both;
 }
 
+.basic-list.no-separator li, div {
+    border: none;
+}
+
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
@@ -277,4 +281,5 @@ textarea {
     h3 {
         page-break-after: avoid;
     }
-}
+
+   

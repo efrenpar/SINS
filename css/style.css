@@ -4726,3 +4726,9 @@ div#sparklinehome canvas {
 #mapid { height: 300px;
     z-index: 0;
 }
+
+#CombiCon select{
+        
+    overflow-x: auto !important;
+
+}

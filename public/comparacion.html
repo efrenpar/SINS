@@ -73,6 +73,8 @@
    <link rel="stylesheet" href="css/preloader/preloader-style.css">
    <link rel="stylesheet" href="css/modals.css">
    <link rel="stylesheet" href="css/tabs.css">
+   <link rel="stylesheet" href="css/notifications/Lobibox.min.css">
+    <link rel="stylesheet" href="css/notifications/notifications.css">
 
     <!-- style CSS
 		============================================ -->
@@ -92,27 +94,7 @@
     <!-- Start Left menu area -->
     <!-- End Left menu area -->
     <!-- Start Welcome area -->
-    <div id="InformationproModalalert" class="modal modal-edu-general fullwidth-popup-InformationproModal fade" role="dialog">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-close-area modal-close-df">
-                  <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-              </div>
-              <div class="modal-body">
-                  <span > <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  </span>
-                  <h2>Importante!</h2>
-                  <p>Elija mas de una opcion</p>
-              </div>
-              <div class="modal-footer info-md">
-                  <a data-dismiss="modal" href="#">Aceptar</a>
-                  
-              </div>
-          </div>
-      </div>
-  </div>
-
-
+      
 
     <div >
         <div >
@@ -162,22 +144,22 @@
                               
                           </div>
                           
-                          <div class = "col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                          <div class = "col-lg-3 col-md-3 col-sm-3 col-xs-3">
                               <div class="form-group">
                                 <div >
                                   <h5 >Provincia:</h1>
-                                  <select name="cars" id = "Provincia" style= "height: 162px; width: 162px;" multiple class ="form-control">
+                                  <select name="cars" id = "Provincia" multiple class ="form-control">
                                    
                                   </select>
                                 </div>
                               </div>
                           </div>
-                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                               
                               <div class="form-group">
                                 <div >
                                   <h5  >Cant&oacute;n:</h1>
-                                  <select name="cars" id="Canton" style= "height: 162px; width: 162px;" multiple class ="form-control">
+                                  <select name="cars" id="Canton" multiple class ="form-control">
                                     
                                   </select>
                                 </div>
@@ -189,44 +171,53 @@
                               <div class="form-group">
                                 <div >
                                   <h5 >Sexo:</h1>
-                                  <select name="cars" id="Ninos" style= "height: 162px; width: 162px;" multiple class ="form-control">
+                                  <select name="cars" id="Ninos"  multiple class ="form-control">
                                     
                                   </select>
                                 </div>
                               </div>
                           </div>
                           
-                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <div>
+                              <div class="row">
+                                <ul class="basic-list no-separator">
+                                  <li>
+                                    <div class="payment-adress" id="Combinar" >
+                                      <i class="fa fa-plus fa-2x" aria-hidden="true" style="color:#62cc62"  data-toggle="tooltip" data-placement="top" title="Agregue una Combinacion"></i>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="payment-adress" id="Remover">
+                                      <i class="fa fa-times fa-2x" aria-hidden="true" style="color:#eb3939" data-toggle="tooltip" data-placement="top" title="Elimine una combinacion"></i>
+                                    </div>
+                                  </li>
+                                  <li>
+                                    <div class="payment-adress" id="basura">
+                                      <i class="fa fa-trash fa-2x" aria-hidden="true" style="color:#a210f7" data-toggle="tooltip" data-placement="top" title="Borre todo"></i>
+                                    </div>
+                                  </li>
+  
+                                </ul>
+                              </div>
+                            </div>
+                            
+                    
+                        </div>
+
+                          <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                               
-                            <div class="form-group">
+                            <div id="CombiCon" class="form-group">
                               <div >
                                 <h5>Combinaci&oacute;n:</h5>
-                                <select name="cars" id="Combinacion" style= "height: 162px; width: 300px;" multiple class ="form-control">
+                                <select name="cars" id="Combinacion"  multiple class ="form-control">
                                   
                                 </select>
                               </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                          <div>
-                            <div class="row">
-
-                              <div class="payment-adress" id="Combinar" >
-                                <i class="fa fa-plus fa-2x" aria-hidden="true" style="color:#62cc62"></i>
-                              </div>
-                              <div class="payment-adress" id="Remover">
-                                <i class="fa fa-times fa-2x" aria-hidden="true" style="color:#eb3939"></i>
-                            </div>
-                            <div class="payment-adress" id="basura">
-                              <i class="fa fa-trash fa-2x" aria-hidden="true" style="color:#a210f7"></i>
-                          </div>
-                            
-                            </div>
-                          </div>
-                          
-                  
-                      </div>
+                        
                           
                           <span id="numberLabel" data-provincia="" data-sexo="" data-canton="" hidden></span>
                       </div>
@@ -247,12 +238,12 @@
                         </div>
                     </div> 
                     <label class="checkbox-inline">
-                        <input type="checkbox" id="slide"> 
+                        <input type="checkbox" id="slide" autocomplete="off"> 
                     </label>
                     <hr>
-                        <ul class="basic-list" id="features" data-checks="" checked="false" >
+                        <ul class="basic-list" id="features" data-checks="" checked="false" autocomplete="off" >
                             <li >   
-                                <label>Todas<input class="pull-left radio-checked"  type="checkbox" id="allChecks"></label>
+                                <label>Todas<input class="pull-left radio-checked"  type="checkbox" id="allChecks" autocomplete="off"></label>
                             </li>
                         </ul>
                         <hr>
@@ -282,7 +273,7 @@
                                         <div class="alert-title">
                                             
                                         </div>
-                                        <div id="pie-chart" >
+                                        <div id="pie-chart" data-porcentajes="ok" >
                                             <canvas id="piechart"></canvas>
                                         </div>
                                     </div>
@@ -313,7 +304,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="footer-copy-right">
-                            <p>Escuela Superior Politecnica Del Litoral (Espol) </p>
+                            <p>Escuela Superior Polit&eacute;cnica Del Litoral (Espol) </p>
                         </div>
                     </div>
                 </div>
@@ -395,6 +386,7 @@
     <script src="js/duallistbox/duallistbox.active.js"></script>
 
      <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+     <script src="js/notifications/Lobibox.js"></script>
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
