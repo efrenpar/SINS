@@ -4727,8 +4727,8 @@ div#sparklinehome canvas {
     z-index: 0;
 }
 
-#CombiCon select{
-        
-    overflow-x: auto !important;
+#Combinacion {
+    width:auto;
+    overflow-x: scroll;
 
 }
