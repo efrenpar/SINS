@@ -38,7 +38,7 @@ const peso_edad = {
 var id_porcentajes=[];
 
 function revisarTexto(labelId,texto){
-    console.log(texto)
+    //console.log(texto)
         if(texto==="0" || texto===null){
             texto="No hay registro"
         }

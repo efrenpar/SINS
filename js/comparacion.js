@@ -1,3 +1,13 @@
+function checkBars(){
+    
+    var check = $("#pie-chart").attr("data-porcentajes");
+    if(check!="ok"){
+        $("#pie-chart").attr("data-porcentajes","ok");
+    }else{
+        $("#pie-chart").attr("data-porcentajes","");
+    }
+
+}
 
 
 $("#Combinar").click((event)=>{
@@ -7,6 +17,19 @@ $("#Combinar").click((event)=>{
     var canton = $("#numberLabel").attr("data-canton");
     var id_option;
 
+    if(provincia =="TODO EL ECUADOR" ){
+        provincia = "";
+    }
+    var query = createFilterSQL(provincia,canton,sexo);
+    getNumeroNinos(query,"numberLabel")
+    id_porcentajes.forEach((element)=>{
+        var queryUp = updatePorcentajesSQL(query,element.id);
+        executeUpPorcen(queryUp,element.name)
+        
+    })
+    var cequery = createCedulaSQL()
+    var newquery = updatePorcentajesSameOrSQL(cequery,provincia,canton,sexo);
+    executeUpPorcen(newquery,"Cedulados")
     
 
     if(sexo!==""){
@@ -36,3 +59,16 @@ $("#basura").click((event)=>{
     $("#Combinacion").empty()
 
 })
+
+$(function() {
+    $('#slide').bootstrapToggle({
+      on: 'Absoluto',
+      off: 'Porcentajes'
+    });
+  })
+
+  $(function() {
+    $('#slide').change((event)=>{
+        checkBars()
+    })
+  })

@@ -3,17 +3,17 @@ var datita=[];
 var recursos=[];
 var barras=[];
 var chart;
+var numero_de_barras;
 
 function mixLabelWithFilter(label,dict){
     
-    console.log(label)
-    console.log(dict)
+ 
     Object.entries(dict).forEach(([key,value])=>{
         if(value!==''){
             
             if(key=="sexo"){
                 label.push(sexoDict[value]);
-                console.log("esto es",value)
+                
             }else{
                 label.push(value);
             }
@@ -174,7 +174,7 @@ function createFilterPart(query,dict){
 }
 
 function execpieSQL(query){
-    console.log(query)
+    
     return new Promise((resolve,reject)=>{
         $.ajax({
             url:api_url+datastoreSQL,
@@ -349,20 +349,28 @@ function createPie(label,datita,colors){
         
     });
     
-    console.log(Chart.defaults.global.legend.onClick)
+   
     return piechart;
 
 }
 
 function addData(chart, label, data) {
-    console.log(label)
+    
+    var porcentaje = $("#pie-chart").attr("data-porcentajes");
+    var divide = $("#numberLabel").text();
+
+    if(porcentaje == "ok"){
+        data = data/divide*100
+        data.toFixed(2);
+    }
+
     chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
         dataset.backgroundColor.push('rgba(255, 99, 132, 0.2)')
     });
     chart.update();
-    console.log(chart.data.datasets[0].backgroundColor)
+   
 }
 
 function removeData(chart) {
@@ -377,18 +385,29 @@ function generarButton(dictList){
 
     $("#generar").click((event)=>{
 
+        $("#Combinacion").each(function(){
+            numero_de_barras++
+        })
+
+        if(numero_de_barras>6){
+          
+            numero_de_barras=0
+        }
+
         var dictCombiacion = $("#Combinacion").children();
         var combinaciones=[]
         Object.entries(dictCombiacion).forEach(([key, value]) => {
             if(typeof value.text=="string"){
-                combinaciones.push(value.text);
+                combinaciones.push($(value).attr("id"));
+                
             }
             
         })
 
         
         combinaciones.forEach(element=>{
-            console.log(element.split("-"))
+            numero_de_barras++;
+          
             var cadenaChecks = $("#features").attr("data-checks");
             var tokens = cadenaChecks.split(" ");
             var Resourcesdict = {}
@@ -401,7 +420,7 @@ function generarButton(dictList){
             
             if(sexo!==""){
                 sexo=reverseSexoDict[sexo]
-                console.log(sexo)
+              
             }
             if(tokens.length==1){
                 myarray = dictList
@@ -410,7 +429,7 @@ function generarButton(dictList){
                     Resourcesdict[element.name]=element.id
                 })
                 tokens.forEach(element=>{
-                    console.log(element)
+                   
                     if(element!==""){
                         myarray.push({
                             name:element,
@@ -425,14 +444,12 @@ function generarButton(dictList){
             var filterDict = createFilterDict(sexo,provincia,canton)
             label=mixLabelWithFilter(label,filterDict)
             query=createFilterPart(query,filterDict)
-            console.log(query)
+           
             execpieSQL(query).then(result=>{
                 addData(chart,label,result)
             })
 
         })
-       
-    
        
 
         

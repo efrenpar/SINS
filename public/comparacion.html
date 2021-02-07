@@ -68,6 +68,8 @@
    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
    crossorigin=""></script>
 
+   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  
    <link rel="stylesheet" href="css/preloader/preloader-style.css">
    <link rel="stylesheet" href="css/modals.css">
    <link rel="stylesheet" href="css/tabs.css">
@@ -90,7 +92,25 @@
     <!-- Start Left menu area -->
     <!-- End Left menu area -->
     <!-- Start Welcome area -->
-
+    <div id="InformationproModalalert" class="modal modal-edu-general fullwidth-popup-InformationproModal fade" role="dialog">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-close-area modal-close-df">
+                  <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+              </div>
+              <div class="modal-body">
+                  <span > <i class="fa fa-info-circle" aria-hidden="true"></i>
+                  </span>
+                  <h2>Importante!</h2>
+                  <p>Elija mas de una opcion</p>
+              </div>
+              <div class="modal-footer info-md">
+                  <a data-dismiss="modal" href="#">Aceptar</a>
+                  
+              </div>
+          </div>
+      </div>
+  </div>
 
 
 
@@ -101,7 +121,7 @@
                     <div class="row">
                         <div class="header-top-menu tabl-d-n">
                             <ul class="nav navbar-nav">
-                                <li class="nav-item"><a href="/" class="nav-link">Home</a>
+                                <li class="nav-item"><a href="/" class="nav-link">Inicio</a>
                                 </li>
                                 <li class="nav-item"><a href="/comparacion" class="nav-link">Comparar</a>
                                 </li>
@@ -118,9 +138,9 @@
                             <div class="mobile-menu">
                                 <nav id="dropdown">
                                     <ul class="mobile-menu-nav">
-                                        <li><a data-toggle="collapse" data-target="#Charts" href="#">Home <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <li><a data-toggle="collapse" data-target="#Charts" href="/">Inicio <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                         </li>
-                                        <li><a data-toggle="collapse" data-target="#demoevent" href="#">About <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
+                                        <li><a data-toggle="collapse" data-target="#demoevent" href="/comparacion">Comparar <span class="admin-project-icon edu-icon edu-down-arrow"></span></a>
                                         </li>
                                         
                                     </ul>
@@ -146,7 +166,7 @@
                               <div class="form-group">
                                 <div >
                                   <h5 >Provincia:</h1>
-                                  <select name="cars" id = "Provincia" style= "height: 162px; width: 162px;" multiple>
+                                  <select name="cars" id = "Provincia" style= "height: 162px; width: 162px;" multiple class ="form-control">
                                    
                                   </select>
                                 </div>
@@ -157,7 +177,7 @@
                               <div class="form-group">
                                 <div >
                                   <h5  >Cant&oacute;n:</h1>
-                                  <select name="cars" id="Canton" style= "height: 162px; width: 162px;" multiple>
+                                  <select name="cars" id="Canton" style= "height: 162px; width: 162px;" multiple class ="form-control">
                                     
                                   </select>
                                 </div>
@@ -169,7 +189,7 @@
                               <div class="form-group">
                                 <div >
                                   <h5 >Sexo:</h1>
-                                  <select name="cars" id="Ninos" style= "height: 162px; width: 162px;" multiple>
+                                  <select name="cars" id="Ninos" style= "height: 162px; width: 162px;" multiple class ="form-control">
                                     
                                   </select>
                                 </div>
@@ -181,7 +201,7 @@
                             <div class="form-group">
                               <div >
                                 <h5>Combinaci&oacute;n:</h5>
-                                <select name="cars" id="Combinacion" style= "height: 162px; width: 300px;" multiple >
+                                <select name="cars" id="Combinacion" style= "height: 162px; width: 300px;" multiple class ="form-control">
                                   
                                 </select>
                               </div>
@@ -226,7 +246,10 @@
                            <h3> Prestaciones</h3>
                         </div>
                     </div> 
-                        
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="slide"> 
+                    </label>
+                    <hr>
                         <ul class="basic-list" id="features" data-checks="" checked="false" >
                             <li >   
                                 <label>Todas<input class="pull-left radio-checked"  type="checkbox" id="allChecks"></label>
@@ -240,8 +263,6 @@
                             <li>
                               <button type="button" id="Limpiar" class="btn btn-custon-rounded-four btn-danger">Limpiar</button>
                             </li>
-                            
-
                         </ul>
                     </div>
                 </div>
@@ -261,7 +282,7 @@
                                         <div class="alert-title">
                                             
                                         </div>
-                                        <div id="pie-chart">
+                                        <div id="pie-chart" >
                                             <canvas id="piechart"></canvas>
                                         </div>
                                     </div>
@@ -372,6 +393,8 @@
     <script src="js/charts/Chart.js"></script>
     <script src="js/duallistbox/jquery.bootstrap-duallistbox.js"></script>
     <script src="js/duallistbox/duallistbox.active.js"></script>
+
+     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- main JS
 		============================================ -->
     <script src="js/main.js"></script>
