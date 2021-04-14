@@ -6,8 +6,8 @@ import csv
 import sys
 
 
-auth_token = '6d3325fc-8987-4e72-a4c8-861274363275'
-url_CKAN = 'http://142.93.127.17:5000'
+auth_token = '902f7b40-d0aa-497f-9838-360f152c376c'
+url_CKAN = 'http://104.236.81.74:5000'
 n = len(sys.argv)
 
 if n==1:
@@ -50,8 +50,12 @@ with open(fileName) as csv_file:
             recordTemp={}
             line_count += 1
     #print(records)
-
+    
+# -------------------------------------------Region comentable para subir datos de ninos_dinardap-----------#
+'''
 prestacion_records = records[0]['PRESTACION']
+
+
 
 
 
@@ -84,12 +88,12 @@ resourceId = response_dict['result']['results'][0]['id']
 
 
 print(resourceId)
-
-
+'''
+#-------------------------------------------Region comentable para subir datos de ninos_dinardap-------------------#
 
 # Put the details of the dataset we're going to create into a dict.
 dataset_dict = {
-    'resource_id': resourceId,
+    'resource_id': '1b8ba95f-682a-4f0f-ad1d-cb93d6ad9c6c',
     'records': records,
     'force': 'true',
     'method': 'insert'

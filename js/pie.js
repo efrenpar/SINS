@@ -47,7 +47,7 @@ function agregarFeature(nombre,id_source){
 
 function generateCheckbox(prestacion,id){
     var Newname=prestacion.name.replace(/-/g," ");
-        if(Newname==="ninos_dinardap"){
+        if(Newname===setNinos){
             Newname = "Cedulados"
         }
     var id_Checkbox = upperCAseFirst(Newname.substring(0, 2));
@@ -81,7 +81,7 @@ function createLabel(array){
    
     array.forEach(element=>{
         var Newname=element.name.replace(/-/g," ");
-        if(Newname==="ninos_dinardap"){
+        if(Newname===setNinos){
             Newname = "Cedulados"
         }
        

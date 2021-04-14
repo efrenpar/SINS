@@ -1,4 +1,4 @@
-const ninos = "ninos_dinardap"
+
 const ECUAS = "TODO-EL-ECUADOR"
 
 function createDistinctProvincias(id){
@@ -287,7 +287,7 @@ function getProvincias(){
         url:api_url+accionResourchSearch,
         type:'POST',
         data:{
-            query:"name:"+ninos 
+            query:"name:"+setNinos 
         },
         headers: {
             authorization: token

@@ -1,16 +1,17 @@
-const api_url = 'http://142.93.127.17:5000/api/3/action'
+const api_url = 'http://104.236.81.74:5000/api/3/action'
 //const api_url = 'http://localhost:5000/api/3/action'
+const setNinos = "ninos dinardap"
 const accionBuscarRecursos = '/current_package_list_with_resources'
 const accionBuscarDatastore = '/datastore_search'
 const accionResourchSearch = "/resource_search"
 const organization = 'sistema-seguimiento'
 //const token = 'c35c1d70-45c8-40d7-a19f-c8cc0a4fa53a'
-const token = '6d3325fc-8987-4e72-a4c8-861274363275'
+const token = '902f7b40-d0aa-497f-9838-360f152c376c'
 const search = '/datastore_search'
 const datastoreSQL = '/datastore_search_sql'
 const sexoDict = { 16:"MASCULINO", 17:"FEMENINO", 144: "INTERSEXUAL"}
 const reverseSexoDict = { "MASCULINO":16, "FEMENINO":17, "INTERSEXUAL":144}
-const ninos_id = "d6886447-c308-4c98-9765-98894215a6ab";
+const ninos_id = "1b8ba95f-682a-4f0f-ad1d-cb93d6ad9c6c";
 //const ninos_id = "b0ee185f-fc8a-4575-8b70-c54c6a3b93a5"; 
 const documentIdTyipo = {5:"No Identificado", 6:"Cédula de Identidad",
     7:"Pasaporte",8:"Visa",9:"Carnet de Refugiado" }
@@ -324,7 +325,7 @@ function createBoxes({ result }) {
             Promise.all(promesaList).then((values) => {
                 values.forEach(value => {
                     var query;
-                    if(value.name!="ninos_dinardap"){
+                    if(value.name!=setNinos){
                         query = createJoinSQL(value.id,values[3]["id"]);
                         getPorcentajes(query).then(result=>{
                             boxTemplate(value.name,result);
